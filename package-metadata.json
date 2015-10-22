@@ -1,0 +1,1 @@
+{"description": "Sublime Text 2/3 plugin for folding (hiding) comments", "sublime_text": "*", "platforms": ["*"], "url": "https://github.com/oskarols/foldcomments", "version": "0.2.0", "dependencies": []}

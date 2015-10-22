@@ -1,4 +1,4 @@
-from sublime import Region, Settings, load_settings
+from sublime import Region, Settings, load_settings, Selection
 import sublime_plugin
 
 from itertools import tee, chain
@@ -105,17 +105,26 @@ def normalize_multiline_comment(view, region):
 class CommentNodes:
 
     def __init__(self, view):
-        self.comments = None # collection of Region objects
+        self.comments = [] # collection of Region objects
         self.settings = load_settings("foldcomments.sublime-settings")
         self.view = view
-        self.find_comments()
-        self.apply_settings()
 
     def find_comments(self):
         self.comments = [
             normalize_comment(self.view, c) for c in self.view.find_by_selector('comment')
         ]
-
+        self.apply_settings()
+    
+    def find_selected_comments(self):
+        self.selectedComments = [
+            normalize_comment(self.view, c) for c in self.view.find_by_selector('comment')
+        ]
+        for c in self.selectedComments:
+            for sel in self.view.sel():
+                if c.contains(sel.begin()): 
+                        self.comments.append(c)
+        self.apply_settings()
+        
     def apply_settings(self):
         if not self.settings.get('fold_single_line_comments'):
             self.remove_single_line_comments()
@@ -160,9 +169,7 @@ class CommentNodes:
     def toggle_folding(self):
         def is_folded(comments):
             return self.view.unfold(comments[0])  # False if /already folded/
-
-        self.unfold() if is_folded(self.comments) else self.fold()
-
+        self.unfold() if is_folded(self.comments) else self.fold()    
 
 # ================================= COMMANDS ==================================
 
@@ -170,6 +177,7 @@ class ToggleFoldCommentsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         comments = CommentNodes(self.view)
+        comments.find_comments()
         comments.toggle_folding()
 
 
@@ -177,6 +185,7 @@ class FoldCommentsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         comments = CommentNodes(self.view)
+        comments.find_comments()
         comments.fold()
 
 
@@ -184,4 +193,12 @@ class UnfoldCommentsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         comments = CommentNodes(self.view)
+        comments.find_comments()
         comments.unfold()
+
+class ToggleFoldSelectedCommentsCommand(sublime_plugin.TextCommand):
+
+    def run(self, edit):
+        comments = CommentNodes(self.view)
+        comments.find_selected_comments()
+        comments.toggle_folding()
