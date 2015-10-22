@@ -122,7 +122,7 @@ class CommentNodes:
         for c in self.selectedComments:
             for sel in self.view.sel():
                 if c.contains(sel.begin()): 
-                        self.comments.append(c)
+                    self.comments.append(c)
         self.apply_settings()
         
     def apply_settings(self):
