@@ -1,3 +1,4 @@
 [
-	{ "keys": ["super+shift+c"], "command": "toggle_fold_comments" }
+	{ "keys": ["super+shift+c"], "command": "toggle_fold_comments" },
+	{ "keys": ["super+alt+c"], "command": "toggle_fold_selected_comments" }
 ]

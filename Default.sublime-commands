@@ -10,5 +10,9 @@
     {
         "caption": "Toggle Fold Comments",
         "command": "toggle_fold_comments"
+    },
+    {
+        "caption": "Toggle Fold Selected Comments",
+        "command": "toggle_fold_selected_comments"
     }
 ]
