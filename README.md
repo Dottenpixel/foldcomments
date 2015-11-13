@@ -36,3 +36,4 @@ Toggle Selected Comments Folding: <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd
 This plugin builds on the work of
 - https://github.com/hasclass/FoldComments
 - https://github.com/mmavko/FoldComments
+- https://github.com/mrz5018/foldcomments
